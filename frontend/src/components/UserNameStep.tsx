@@ -19,8 +19,8 @@ const UserNameStep: React.FC = () => {
       <Paper
         elevation={2}
         sx={{
-          p: { xs: 3, sm: 4 },
-          maxWidth: { xs: '100%', sm: 480 },
+          p: { xs: 1.5, sm: 2.5 },
+          maxWidth: { xs: 280, sm: 350 },
           width: '100%',
           mx: 'auto',
           height: 'auto',
@@ -32,17 +32,18 @@ const UserNameStep: React.FC = () => {
         }}
       >
         <Typography
-          variant={isMobile ? 'h6' : 'h5'}
+          variant={isMobile ? 'subtitle1' : 'h6'}
           gutterBottom
           textAlign="center"
+          sx={{ fontSize: { xs: '0.9rem', sm: '1.1rem' } }}
         >
           Welcome to the Math Worksheet!
         </Typography>
         <Typography
-          variant="body1"
+          variant="body2"
           gutterBottom
           textAlign="center"
-          sx={{ fontSize: { xs: '0.9rem', sm: '1rem' } }}
+          sx={{ fontSize: { xs: '0.7rem', sm: '0.8rem' }, mb: 1 }}
         >
           Please enter your name to get started:
         </Typography>
@@ -55,12 +56,12 @@ const UserNameStep: React.FC = () => {
           }}
           placeholder="Enter your name..."
           autoFocus={!isMobile}
-          size={isMobile ? 'medium' : 'medium'}
+          size="small"
           sx={{
-            mb: 2,
+            mb: 1,
             '& .MuiInputBase-input': {
-              fontSize: { xs: '1rem', sm: '1rem' },
-              padding: { xs: '12px 14px', sm: '16.5px 14px' },
+              fontSize: { xs: '0.8rem', sm: '0.9rem' },
+              padding: { xs: '6px 10px', sm: '8px 12px' },
             },
           }}
         />
@@ -68,14 +69,14 @@ const UserNameStep: React.FC = () => {
           <Paper
             elevation={0}
             sx={{
-              p: { xs: 1.5, sm: 2 },
+              p: { xs: 0.75, sm: 1 },
               bgcolor: '#f5f5f5',
-              mt: 2,
+              mt: 0.5,
               width: '100%',
               textAlign: 'center',
             }}
           >
-            <Typography sx={{ fontSize: { xs: '0.9rem', sm: '1rem' } }}>
+            <Typography sx={{ fontSize: { xs: '0.7rem', sm: '0.8rem' } }}>
               Hello, {userName}! Ready to practice rounding to the nearest 10?
             </Typography>
           </Paper>

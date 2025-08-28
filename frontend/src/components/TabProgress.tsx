@@ -6,7 +6,6 @@ import {
   Step,
   StepLabel,
   Button,
-  Divider,
   Typography,
   useMediaQuery,
   useTheme,
@@ -50,49 +49,58 @@ const TabProgress: React.FC<TabProgressProps> = ({
         alignItems: 'center',
         bgcolor: '#fad7d7',
         overflow: 'hidden',
-        px: { xs: 1, sm: 3 },
-        py: { xs: 2, sm: 4 },
+        px: { xs: 0.5, sm: 2 },
+        py: { xs: 1, sm: 3 },
       }}
     >
       <Box
         sx={{
           width: '100%',
-          maxWidth: { xs: '100%', sm: 700 },
-          minHeight: { xs: '95vh', sm: '80vh' },
+          maxWidth: { xs: '100%', sm: 650 },
+          minHeight: { xs: '98vh', sm: '85vh' },
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
           overflow: 'auto',
-          px: { xs: 1, sm: 3 },
-          py: { xs: 2, sm: 3 },
+          px: { xs: 0.5, sm: 2 },
+          py: { xs: 1, sm: 2 },
           bgcolor: 'white',
-          borderRadius: { xs: 1, sm: 2 },
-          boxShadow: 2,
+          borderRadius: { xs: 0, sm: 2 },
+          boxShadow: { xs: 0, sm: 2 },
         }}
       >
         {isMobile ? (
-          <Box sx={{ mb: 3 }}>
-            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 1 }}>
-              <Typography variant="body2" color="text.secondary">
+          <Box sx={{ mb: 2 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 0.5 }}>
+              <Typography
+                variant="caption"
+                color="text.secondary"
+                fontSize="0.7rem"
+              >
                 Step {activeStep + 1} of {steps.length}
               </Typography>
             </Box>
-            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 1 }}>
               {steps.map((_, index) => (
                 <Box
                   key={index}
                   sx={{
-                    width: 8,
-                    height: 8,
+                    width: 6,
+                    height: 6,
                     borderRadius: '50%',
                     bgcolor: index <= activeStep ? 'primary.main' : 'grey.300',
-                    mx: 0.5,
+                    mx: 0.3,
                     transition: 'background-color 0.3s',
                   }}
                 />
               ))}
             </Box>
-            <Typography variant="h6" textAlign="center" color="primary.main">
+            <Typography
+              variant="subtitle2"
+              textAlign="center"
+              color="primary.main"
+              fontSize="0.9rem"
+            >
               {steps[activeStep]}
             </Typography>
           </Box>
@@ -106,7 +114,7 @@ const TabProgress: React.FC<TabProgressProps> = ({
           </Stepper>
         )}
 
-        <Box sx={{ mb: { xs: 2, sm: 4 }, flex: 1 }}>
+        <Box sx={{ mb: { xs: 1, sm: 3 }, flex: 1 }}>
           {activeStep === 0 && <UserNameStep />}
           {activeStep === 1 && <InstructionsStep />}
           {activeStep === 2 && <WorksheetStep />}
@@ -118,17 +126,23 @@ const TabProgress: React.FC<TabProgressProps> = ({
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
-            mt: 2,
-            gap: { xs: 1, sm: 2 },
-            flexDirection: { xs: 'column', sm: 'row' },
+            mt: 1,
+            gap: { xs: 0.5, sm: 1 },
+            flexDirection: { xs: 'row', sm: 'row' },
           }}
         >
           <Button
             variant="outlined"
             onClick={onBack}
             disabled={activeStep === 0}
-            fullWidth={isMobile}
-            size={isMobile ? 'large' : 'medium'}
+            size="small"
+            sx={{
+              fontSize: { xs: '0.7rem', sm: '0.8rem' },
+              px: { xs: 1, sm: 2 },
+              py: { xs: 0.5, sm: 0.75 },
+              flex: { xs: 1, sm: 'none' },
+              mr: { xs: 0.5, sm: 0 },
+            }}
           >
             Back
           </Button>
@@ -137,8 +151,13 @@ const TabProgress: React.FC<TabProgressProps> = ({
               variant="contained"
               color="primary"
               onClick={onSubmit}
-              fullWidth={isMobile}
-              size={isMobile ? 'large' : 'medium'}
+              size="small"
+              sx={{
+                fontSize: { xs: '0.7rem', sm: '0.8rem' },
+                px: { xs: 1, sm: 2 },
+                py: { xs: 0.5, sm: 0.75 },
+                flex: { xs: 1, sm: 'none' },
+              }}
             >
               Start Over
             </Button>
@@ -147,10 +166,15 @@ const TabProgress: React.FC<TabProgressProps> = ({
               variant="contained"
               color="primary"
               onClick={onNext}
-              fullWidth={isMobile}
-              size={isMobile ? 'large' : 'medium'}
+              size="small"
+              sx={{
+                fontSize: { xs: '0.7rem', sm: '0.8rem' },
+                px: { xs: 1, sm: 2 },
+                py: { xs: 0.5, sm: 0.75 },
+                flex: { xs: 1, sm: 'none' },
+              }}
             >
-              View Leaderboard
+              {isMobile ? 'Leaderboard' : 'View Leaderboard'}
             </Button>
           ) : (
             <Button
@@ -158,16 +182,28 @@ const TabProgress: React.FC<TabProgressProps> = ({
               color="primary"
               onClick={onNext}
               disabled={!canProceed}
-              fullWidth={isMobile}
-              size={isMobile ? 'large' : 'medium'}
+              size="small"
+              sx={{
+                fontSize: { xs: '0.7rem', sm: '0.8rem' },
+                px: { xs: 1, sm: 2 },
+                py: { xs: 0.5, sm: 0.75 },
+                flex: { xs: 1, sm: 'none' },
+              }}
             >
-              {activeStep === 2 ? 'Calculate Score' : 'Continue'}
+              {activeStep === 2
+                ? isMobile
+                  ? 'Score'
+                  : 'Calculate Score'
+                : 'Continue'}
             </Button>
           )}
         </Box>
-        <Divider sx={{ my: 2 }} />
-        <Box sx={{ textAlign: 'center', width: '100%' }}>
-          <Typography variant="caption" color="text.secondary">
+        <Box sx={{ textAlign: 'center', width: '100%', mt: 1 }}>
+          <Typography
+            variant="caption"
+            color="text.secondary"
+            fontSize="0.6rem"
+          >
             © www.mathinenglish.com
           </Typography>
         </Box>

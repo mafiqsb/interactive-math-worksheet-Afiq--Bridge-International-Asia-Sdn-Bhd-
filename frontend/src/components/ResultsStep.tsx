@@ -33,7 +33,7 @@ const ResultsStep: React.FC = () => {
     <Container
       maxWidth={false}
       sx={{
-        p: { xs: 1, sm: 4 },
+        p: { xs: 0.5, sm: 2 },
         width: '100%',
         mx: 'auto',
         height: 'auto',
@@ -46,53 +46,65 @@ const ResultsStep: React.FC = () => {
       <Paper
         elevation={2}
         sx={{
-          p: { xs: 2, sm: 4 },
+          p: { xs: 1, sm: 2 },
           textAlign: 'center',
-          maxWidth: 700,
+          maxWidth: 650,
           width: '100%',
           boxShadow: 'none',
         }}
       >
-        <Typography variant={isMobile ? 'h6' : 'h5'} gutterBottom>
+        <Typography
+          variant={isMobile ? 'subtitle1' : 'h6'}
+          gutterBottom
+          sx={{ fontSize: { xs: '1rem', sm: '1.25rem' } }}
+        >
           Results for {userName}
         </Typography>
         <Box
           sx={{
-            width: { xs: 80, sm: 120 },
-            height: { xs: 80, sm: 120 },
+            width: { xs: 60, sm: 80 },
+            height: { xs: 60, sm: 80 },
             borderRadius: '50%',
-            border: { xs: 4, sm: 6 },
+            border: { xs: 3, sm: 4 },
             borderStyle: 'solid',
             borderColor: getScoreColor(score!),
             mx: 'auto',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            mb: 2,
+            mb: 1.5,
           }}
         >
           <Typography
-            variant={isMobile ? 'h5' : 'h4'}
-            sx={{ color: getScoreColor(score!), fontWeight: 700 }}
+            variant={isMobile ? 'h6' : 'h5'}
+            sx={{
+              color: getScoreColor(score!),
+              fontWeight: 700,
+              fontSize: { xs: '1rem', sm: '1.5rem' },
+            }}
           >
             {score}/13
           </Typography>
         </Box>
         <Typography
-          variant="subtitle1"
+          variant="body2"
           sx={{
             color: getScoreColor(score!),
-            mb: 2,
-            fontSize: { xs: '0.9rem', sm: '1rem' },
+            mb: 1.5,
+            fontSize: { xs: '0.8rem', sm: '0.9rem' },
           }}
         >
           {getScoreMessage(score!)}
         </Typography>
-        <Divider sx={{ my: 2 }} />
-        <Typography variant={isMobile ? 'subtitle1' : 'h6'} gutterBottom>
+        <Divider sx={{ my: 1.5 }} />
+        <Typography
+          variant="subtitle2"
+          gutterBottom
+          sx={{ fontSize: { xs: '0.9rem', sm: '1rem' } }}
+        >
           Your Answers:
         </Typography>
-        <Box sx={{ mt: 2 }}>
+        <Box sx={{ mt: 1 }}>
           {mathQuestions.map((question) => {
             const userChoice = answers[question.id];
             const isCorrect = userChoice === question.correctChoice;
@@ -101,31 +113,31 @@ const ResultsStep: React.FC = () => {
                 key={question.id}
                 elevation={0}
                 sx={{
-                  p: { xs: 1, sm: 2 },
-                  mb: 1,
+                  p: { xs: 0.75, sm: 1 },
+                  mb: 0.75,
                   display: 'flex',
                   flexDirection: { xs: 'column', sm: 'row' },
                   alignItems: { xs: 'flex-start', sm: 'center' },
-                  gap: { xs: 1, sm: 2 },
+                  gap: { xs: 0.5, sm: 1 },
                   bgcolor: isCorrect ? '#e8f5e9' : '#ffebee',
                   border: '1px solid',
                   borderColor: isCorrect ? 'success.main' : 'error.main',
                   boxShadow: 'none',
                 }}
               >
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                   <Typography
                     sx={{
-                      minWidth: 32,
-                      fontSize: { xs: '0.8rem', sm: '1rem' },
+                      minWidth: 24,
+                      fontSize: { xs: '0.7rem', sm: '0.8rem' },
                     }}
                   >
                     {question.id}.
                   </Typography>
                   <Typography
                     sx={{
-                      minWidth: 60,
-                      fontSize: { xs: '0.8rem', sm: '1rem' },
+                      minWidth: 40,
+                      fontSize: { xs: '0.7rem', sm: '0.8rem' },
                     }}
                   >
                     {question.number}
@@ -136,14 +148,14 @@ const ResultsStep: React.FC = () => {
                     display: 'flex',
                     flexDirection: { xs: 'column', sm: 'row' },
                     alignItems: { xs: 'flex-start', sm: 'center' },
-                    gap: { xs: 0.5, sm: 2 },
+                    gap: { xs: 0.25, sm: 1 },
                     flex: 1,
                   }}
                 >
                   <Typography
                     sx={{
                       fontWeight: 600,
-                      fontSize: { xs: '0.8rem', sm: '1rem' },
+                      fontSize: { xs: '0.7rem', sm: '0.8rem' },
                     }}
                   >
                     {userChoice
@@ -155,7 +167,7 @@ const ResultsStep: React.FC = () => {
                   <Typography
                     sx={{
                       color: 'text.secondary',
-                      fontSize: { xs: '0.7rem', sm: '0.9rem' },
+                      fontSize: { xs: '0.6rem', sm: '0.7rem' },
                     }}
                   >
                     ({question.correctChoice}.{' '}
@@ -165,7 +177,7 @@ const ResultsStep: React.FC = () => {
                     sx={{
                       fontWeight: 700,
                       color: isCorrect ? 'success.main' : 'error.main',
-                      fontSize: { xs: '0.7rem', sm: '0.8rem' },
+                      fontSize: { xs: '0.6rem', sm: '0.7rem' },
                     }}
                   >
                     {isCorrect ? 'Right' : 'Wrong'}
@@ -179,9 +191,13 @@ const ResultsStep: React.FC = () => {
           variant="contained"
           color="success"
           onClick={resetAnswers}
-          fullWidth={isMobile}
-          size={isMobile ? 'large' : 'medium'}
-          sx={{ mt: 3 }}
+          size="small"
+          sx={{
+            mt: 2,
+            fontSize: { xs: '0.7rem', sm: '0.8rem' },
+            px: { xs: 1, sm: 2 },
+            py: { xs: 0.5, sm: 0.75 },
+          }}
         >
           Try Again
         </Button>

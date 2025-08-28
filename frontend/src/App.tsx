@@ -152,6 +152,8 @@ const App: React.FC = () => {
           containedPrimary: {
             backgroundColor: '#e57373',
             color: '#fff',
+            fontSize: '0.875rem',
+            padding: '8px 16px',
             '&:hover': {
               backgroundColor: '#d06262',
             },
@@ -159,6 +161,8 @@ const App: React.FC = () => {
           outlined: {
             borderColor: '#e57373',
             color: '#e57373',
+            fontSize: '0.875rem',
+            padding: '8px 16px',
             '&:hover': {
               borderColor: '#d06262',
               backgroundColor: '#fad7d7',
