@@ -5,6 +5,8 @@ const isLocal =
   !process.env.POSTGRES_URL_NON_POOLING &&
   !process.env.VERCEL &&
   !process.env.SUPABASE_URL;
+
+
 let client: any;
 let db: Database.Database | null = null;
 
