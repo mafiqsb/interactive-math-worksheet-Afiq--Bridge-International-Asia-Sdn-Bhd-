@@ -1,4 +1,11 @@
-const API_BASE_URL = 'http://localhost:3001/api/worksheet';
+const API_BASE_URL =
+  process.env.NODE_ENV === 'production'
+    ? 'https://your-backend-app.vercel.app/api/worksheet'
+    : 'http://localhost:3001/api/worksheet';
+
+console.log('Environment:', process.env.NODE_ENV);
+console.log('Frontend running on:', window.location.origin);
+console.log('API Base URL:', API_BASE_URL);
 
 export interface SubmissionData {
   userName: string;
@@ -16,7 +23,6 @@ export interface LeaderboardEntry {
 export const api = {
   async submitWorksheet(data: SubmissionData) {
     try {
-
       const response = await fetch(`${API_BASE_URL}/submit`, {
         method: 'POST',
         headers: {
@@ -49,7 +55,6 @@ export const api = {
 
   async getLeaderboard(): Promise<LeaderboardEntry[]> {
     try {
-
       const response = await fetch(`${API_BASE_URL}/leaderboard`);
 
       if (!response.ok) {
