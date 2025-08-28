@@ -68,7 +68,7 @@ const LeaderboardStep: React.FC = () => {
           gutterBottom
           textAlign="center"
         >
-          🏆 Leaderboard
+          Leaderboard
         </Typography>
         <Typography
           variant="body2"
