@@ -9,6 +9,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// Configure CORS to allow frontend requests
 app.use(
   cors({
     origin: [
@@ -18,8 +19,8 @@ app.use(
       'http://127.0.0.1:3000',
       'http://127.0.0.1:5173',
       'http://127.0.0.1:5174',
-      'https://your-frontend-app.vercel.app', // Add your frontend Vercel URL here
-      /\.vercel\.app$/, // Allow all Vercel preview deployments
+      'interactive-math-worksheet-afiq-bri.vercel.app',
+      /\.vercel\.app$/,
     ],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
@@ -33,20 +34,42 @@ app.options('*', cors());
 app.use(express.json());
 
 console.log('Starting server...');
+console.log('Environment variables check:');
+console.log(
+  'POSTGRES_URL_NON_POOLING:',
+  process.env.POSTGRES_URL_NON_POOLING ? 'Set' : 'Missing'
+);
+console.log('NODE_ENV:', process.env.NODE_ENV);
 
 // Initialize database
-initializeDatabase();
+try {
+  initializeDatabase();
+} catch (error) {
+  console.error('Database initialization failed:', error);
+}
 
 // Routes
 app.use('/api/worksheet', worksheetRoutes);
 
-app.get('/api/health', (req, res) => {
-  res.json({ message: 'Backend is running!' });
+app.get('/', (req, res) => {
+  res.json({
+    message: 'Math Worksheet API is running!',
+    timestamp: new Date().toISOString(),
+    env: process.env.NODE_ENV,
+  });
+});
+
+// Error handling middleware
+app.use((error: any, req: any, res: any, next: any) => {
+  console.error('Unhandled error:', error);
+  res.status(500).json({
+    error: 'Internal server error',
+    message: error.message,
+  });
 });
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
-  console.log(`CORS enabled for frontend origins`);
 });
 
 export default app;
