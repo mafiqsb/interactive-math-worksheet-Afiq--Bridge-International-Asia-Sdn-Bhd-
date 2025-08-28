@@ -1,7 +1,11 @@
 import { createClient } from '@vercel/postgres';
 import Database from 'better-sqlite3';
 
-const isLocal = !process.env.POSTGRES_URL_NON_POOLING && !process.env.VERCEL;
+// For Supabase, use the non-pooling URL
+const isLocal =
+  !process.env.POSTGRES_URL_NON_POOLING &&
+  !process.env.VERCEL &&
+  !process.env.SUPABASE_URL;
 let client: any;
 let db: Database.Database | null = null;
 
@@ -9,10 +13,10 @@ if (isLocal) {
   // Use SQLite for local development
   db = new Database('dev.db');
 } else {
-  // Use Vercel Postgres for production
+  // Use Supabase Postgres for production
   client = createClient({
     connectionString:
-      process.env.POSTGRES_URL_NON_POOLING || process.env.DATABASE_URL,
+      process.env.POSTGRES_URL_NON_POOLING || process.env.POSTGRES_URL,
   });
 }
 
