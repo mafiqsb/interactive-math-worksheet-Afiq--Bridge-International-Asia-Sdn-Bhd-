@@ -141,7 +141,7 @@ export async function getLeaderboard() {
         FROM submissions
         GROUP BY user_name
         ORDER BY best_score DESC, attempts ASC
-        LIMIT 20
+        LIMIT 30
       `);
       return stmt.all();
     } else if (client) {
@@ -153,7 +153,7 @@ export async function getLeaderboard() {
         FROM submissions
         GROUP BY user_name
         ORDER BY best_score DESC, attempts ASC
-        LIMIT 20
+        LIMIT 30
       `;
       return result.rows;
     }
