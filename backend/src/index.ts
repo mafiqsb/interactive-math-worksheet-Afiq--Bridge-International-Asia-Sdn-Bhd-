@@ -1,10 +1,10 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
 import { initializeDatabase } from './database';
 import worksheetRoutes from './routes/worksheet';
-
-dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
