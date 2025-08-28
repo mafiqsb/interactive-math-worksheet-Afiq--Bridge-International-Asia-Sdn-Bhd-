@@ -12,6 +12,8 @@ import {
   TableRow,
   CircularProgress,
   Alert,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import { api, type LeaderboardEntry } from '../services/api';
 
@@ -19,6 +21,8 @@ const LeaderboardStep: React.FC = () => {
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
@@ -41,7 +45,9 @@ const LeaderboardStep: React.FC = () => {
     return (
       <Container maxWidth="md" sx={{ textAlign: 'center', py: 4 }}>
         <CircularProgress />
-        <Typography sx={{ mt: 2 }}>Loading leaderboard...</Typography>
+        <Typography sx={{ mt: 2, fontSize: { xs: '0.9rem', sm: '1rem' } }}>
+          Loading leaderboard...
+        </Typography>
       </Container>
     );
   }
@@ -55,29 +61,46 @@ const LeaderboardStep: React.FC = () => {
   }
 
   return (
-    <Container maxWidth="md" sx={{ py: 4 }}>
-      <Paper elevation={2} sx={{ p: 4 }}>
-        <Typography variant="h5" gutterBottom textAlign="center">
+    <Container maxWidth="md" sx={{ py: { xs: 2, sm: 4 } }}>
+      <Paper elevation={2} sx={{ p: { xs: 2, sm: 4 } }}>
+        <Typography
+          variant={isMobile ? 'h6' : 'h5'}
+          gutterBottom
+          textAlign="center"
+        >
           🏆 Leaderboard
         </Typography>
-        <Typography variant="body2" textAlign="center" sx={{ mb: 3 }}>
+        <Typography
+          variant="body2"
+          textAlign="center"
+          sx={{
+            mb: 3,
+            fontSize: { xs: '0.8rem', sm: '0.875rem' },
+          }}
+        >
           Top performers in rounding to the nearest 10
         </Typography>
 
-        <TableContainer>
-          <Table>
+        <TableContainer sx={{ overflowX: 'auto' }}>
+          <Table size={isMobile ? 'small' : 'medium'}>
             <TableHead>
               <TableRow>
-                <TableCell>
+                <TableCell sx={{ fontSize: { xs: '0.7rem', sm: '0.875rem' } }}>
                   <strong>Rank</strong>
                 </TableCell>
-                <TableCell>
+                <TableCell sx={{ fontSize: { xs: '0.7rem', sm: '0.875rem' } }}>
                   <strong>Name</strong>
                 </TableCell>
-                <TableCell align="center">
-                  <strong>Best Score</strong>
+                <TableCell
+                  align="center"
+                  sx={{ fontSize: { xs: '0.7rem', sm: '0.875rem' } }}
+                >
+                  <strong>{isMobile ? 'Score' : 'Best Score'}</strong>
                 </TableCell>
-                <TableCell align="center">
+                <TableCell
+                  align="center"
+                  sx={{ fontSize: { xs: '0.7rem', sm: '0.875rem' } }}
+                >
                   <strong>Attempts</strong>
                 </TableCell>
               </TableRow>
@@ -85,7 +108,9 @@ const LeaderboardStep: React.FC = () => {
             <TableBody>
               {leaderboard.map((entry, index) => (
                 <TableRow key={entry.user_name}>
-                  <TableCell>
+                  <TableCell
+                    sx={{ fontSize: { xs: '0.7rem', sm: '0.875rem' } }}
+                  >
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                       {index === 0 && '🥇'}
                       {index === 1 && '🥈'}
@@ -93,11 +118,22 @@ const LeaderboardStep: React.FC = () => {
                       {index > 2 && `#${index + 1}`}
                     </Box>
                   </TableCell>
-                  <TableCell>{entry.user_name}</TableCell>
+                  <TableCell
+                    sx={{
+                      fontSize: { xs: '0.7rem', sm: '0.875rem' },
+                      maxWidth: { xs: 80, sm: 'none' },
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    {entry.user_name}
+                  </TableCell>
                   <TableCell align="center">
                     <Typography
                       sx={{
                         fontWeight: 'bold',
+                        fontSize: { xs: '0.7rem', sm: '0.875rem' },
                         color:
                           entry.best_score === 13
                             ? 'success.main'
@@ -109,7 +145,12 @@ const LeaderboardStep: React.FC = () => {
                       {entry.best_score}/13
                     </Typography>
                   </TableCell>
-                  <TableCell align="center">{entry.attempts}</TableCell>
+                  <TableCell
+                    align="center"
+                    sx={{ fontSize: { xs: '0.7rem', sm: '0.875rem' } }}
+                  >
+                    {entry.attempts}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -117,7 +158,13 @@ const LeaderboardStep: React.FC = () => {
         </TableContainer>
 
         {leaderboard.length === 0 && (
-          <Typography textAlign="center" sx={{ py: 4 }}>
+          <Typography
+            textAlign="center"
+            sx={{
+              py: 4,
+              fontSize: { xs: '0.9rem', sm: '1rem' },
+            }}
+          >
             No submissions yet. Be the first to complete the worksheet!
           </Typography>
         )}

@@ -8,18 +8,21 @@ import {
   FormControlLabel,
   Radio,
   Button,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import { useWorksheet, mathQuestions } from './WorksheetContext';
 
-
 const WorksheetStep: React.FC = () => {
   const { answers, setAnswer } = useWorksheet();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
     <Container
       maxWidth={false}
       sx={{
-        p: 4,
+        p: { xs: 1, sm: 4 },
         width: '100%',
         mx: 'auto',
         height: 'auto',
@@ -33,17 +36,17 @@ const WorksheetStep: React.FC = () => {
       <Paper
         elevation={2}
         sx={{
-          p: 4,
+          p: { xs: 2, sm: 4 },
           maxWidth: 700,
           width: '100%',
           boxShadow: 'none',
           bgcolor: 'white',
         }}
       >
-        <Typography variant="h5" gutterBottom>
+        <Typography variant={isMobile ? 'h6' : 'h5'} gutterBottom>
           Round to the nearest 10
         </Typography>
-        <Typography variant="body2" gutterBottom>
+        <Typography variant="body2" gutterBottom sx={{ mb: { xs: 2, sm: 2 } }}>
           Circle the correct answers below:
         </Typography>
         <Box sx={{ mt: 2 }}>
@@ -52,23 +55,43 @@ const WorksheetStep: React.FC = () => {
               key={question.id}
               elevation={0}
               sx={{
-                p: 2,
-                mb: 2,
+                p: { xs: 1.5, sm: 2 },
+                mb: { xs: 1.5, sm: 2 },
                 display: 'flex',
-                alignItems: 'center',
-                gap: 2,
+                flexDirection: { xs: 'column', sm: 'row' },
+                alignItems: { xs: 'flex-start', sm: 'center' },
+                gap: { xs: 1, sm: 2 },
                 bgcolor: 'white',
                 border: '2px solid #fad7d7',
                 borderRadius: 2,
               }}
             >
-              <Typography sx={{ minWidth: 32 }}>{question.id}.</Typography>
-              <Typography sx={{ minWidth: 60, fontWeight: 600 }}>
-                {question.number}
-              </Typography>
-              <Typography sx={{ mx: 1 }}>=</Typography>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1,
+                  mb: { xs: 1, sm: 0 },
+                }}
+              >
+                <Typography
+                  sx={{ minWidth: 32, fontSize: { xs: '0.9rem', sm: '1rem' } }}
+                >
+                  {question.id}.
+                </Typography>
+                <Typography
+                  sx={{
+                    minWidth: 60,
+                    fontWeight: 600,
+                    fontSize: { xs: '0.9rem', sm: '1rem' },
+                  }}
+                >
+                  {question.number}
+                </Typography>
+                <Typography sx={{ mx: 1 }}>=</Typography>
+              </Box>
               <RadioGroup
-                row
+                row={!isMobile}
                 value={answers[question.id] || ''}
                 onChange={(e) => setAnswer(question.id, e.target.value)}
                 name={`q${question.id}`}
@@ -76,23 +99,36 @@ const WorksheetStep: React.FC = () => {
                   bgcolor: 'white',
                   borderRadius: 2,
                   px: 1,
+                  width: '100%',
+                  '& .MuiFormControlLabel-root': {
+                    mr: { xs: 0, sm: 2 },
+                    mb: { xs: 0.5, sm: 0 },
+                  },
                 }}
               >
                 {(['a', 'b', 'c'] as const).map((choiceKey) => (
                   <FormControlLabel
                     key={choiceKey}
                     value={choiceKey}
-                    control={<Radio />}
+                    control={<Radio size={isMobile ? 'small' : 'medium'} />}
                     label={
                       <Box
                         sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
                       >
                         <Typography
-                          sx={{ fontWeight: 'bold', color: 'primary.main' }}
+                          sx={{
+                            fontWeight: 'bold',
+                            color: 'primary.main',
+                            fontSize: { xs: '0.8rem', sm: '1rem' },
+                          }}
                         >
                           {choiceKey}.
                         </Typography>
-                        <Typography>{question.choices[choiceKey]}</Typography>
+                        <Typography
+                          sx={{ fontSize: { xs: '0.8rem', sm: '1rem' } }}
+                        >
+                          {question.choices[choiceKey]}
+                        </Typography>
                       </Box>
                     }
                   />
@@ -104,6 +140,8 @@ const WorksheetStep: React.FC = () => {
         <Button
           variant="outlined"
           color="primary"
+          fullWidth={isMobile}
+          size={isMobile ? 'large' : 'medium'}
           sx={{ mt: 2 }}
           onClick={() => {
             Object.keys(answers).forEach((qid) => setAnswer(Number(qid), ''));

@@ -38,7 +38,6 @@ router.post('/submit', async (req, res) => {
   }
 });
 
-// Get user's submission history
 router.get('/submissions/:userName', async (req, res) => {
   try {
     const { userName } = req.params;
@@ -50,7 +49,6 @@ router.get('/submissions/:userName', async (req, res) => {
   }
 });
 
-// Get all submissions (admin)
 router.get('/submissions', async (req, res) => {
   try {
     const submissions = await getSubmissions();
@@ -61,7 +59,6 @@ router.get('/submissions', async (req, res) => {
   }
 });
 
-// Get leaderboard
 router.get('/leaderboard', async (req, res) => {
   try {
     const leaderboard = await getLeaderboard();

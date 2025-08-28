@@ -8,6 +8,8 @@ import {
   Button,
   Divider,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import UserNameStep from './UserNameStep';
 import InstructionsStep from './InstructionsStep';
@@ -32,83 +34,146 @@ const TabProgress: React.FC<TabProgressProps> = ({
   onBack,
   onSubmit,
   canProceed,
-}) => (
-  <Container
-    maxWidth={false}
-    sx={{
-      minHeight: '100vh',
-      width: '100vw',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      bgcolor: '#fad7d7',
-      overflow: 'hidden',
-      px: 0,
-      py: 4,
-    }}
-  >
-    <Box
+}) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+  return (
+    <Container
+      maxWidth={false}
       sx={{
-        width: '100%',
-        maxWidth: 700,
-        minHeight: '80vh',
+        minHeight: '100vh',
+        width: '100vw',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        overflow: 'auto',
-        px: 3,
-        py: 3,
-        bgcolor: 'white',
-        borderRadius: 2,
-        boxShadow: 2,
+        alignItems: 'center',
+        bgcolor: '#fad7d7',
+        overflow: 'hidden',
+        px: { xs: 1, sm: 3 },
+        py: { xs: 2, sm: 4 },
       }}
     >
-      <Stepper activeStep={activeStep} alternativeLabel sx={{ mb: 4 }}>
-        {steps.map((label) => (
-          <Step key={label}>
-            <StepLabel>{label}</StepLabel>
-          </Step>
-        ))}
-      </Stepper>
-      <Box sx={{ mb: 4, flex: 1 }}>
-        {activeStep === 0 && <UserNameStep />}
-        {activeStep === 1 && <InstructionsStep />}
-        {activeStep === 2 && <WorksheetStep />}
-        {activeStep === 3 && <ResultsStep />}
-        {activeStep === 4 && <LeaderboardStep />}
-      </Box>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-        <Button variant="outlined" onClick={onBack} disabled={activeStep === 0}>
-          Back
-        </Button>
-        {activeStep === steps.length - 1 ? (
-          <Button variant="contained" color="primary" onClick={onSubmit}>
-            Start Over
-          </Button>
-        ) : activeStep === steps.length - 2 ? (
-          <Button variant="contained" color="primary" onClick={onNext}>
-            View Leaderboard
-          </Button>
+      <Box
+        sx={{
+          width: '100%',
+          maxWidth: { xs: '100%', sm: 700 },
+          minHeight: { xs: '95vh', sm: '80vh' },
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          overflow: 'auto',
+          px: { xs: 1, sm: 3 },
+          py: { xs: 2, sm: 3 },
+          bgcolor: 'white',
+          borderRadius: { xs: 1, sm: 2 },
+          boxShadow: 2,
+        }}
+      >
+        {isMobile ? (
+          <Box sx={{ mb: 3 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 1 }}>
+              <Typography variant="body2" color="text.secondary">
+                Step {activeStep + 1} of {steps.length}
+              </Typography>
+            </Box>
+            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+              {steps.map((_, index) => (
+                <Box
+                  key={index}
+                  sx={{
+                    width: 8,
+                    height: 8,
+                    borderRadius: '50%',
+                    bgcolor: index <= activeStep ? 'primary.main' : 'grey.300',
+                    mx: 0.5,
+                    transition: 'background-color 0.3s',
+                  }}
+                />
+              ))}
+            </Box>
+            <Typography variant="h6" textAlign="center" color="primary.main">
+              {steps[activeStep]}
+            </Typography>
+          </Box>
         ) : (
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={onNext}
-            disabled={!canProceed}
-          >
-            {activeStep === 2 ? 'Calculate Score' : 'Continue'}
-          </Button>
+          <Stepper activeStep={activeStep} alternativeLabel sx={{ mb: 4 }}>
+            {steps.map((label) => (
+              <Step key={label}>
+                <StepLabel>{label}</StepLabel>
+              </Step>
+            ))}
+          </Stepper>
         )}
+
+        <Box sx={{ mb: { xs: 2, sm: 4 }, flex: 1 }}>
+          {activeStep === 0 && <UserNameStep />}
+          {activeStep === 1 && <InstructionsStep />}
+          {activeStep === 2 && <WorksheetStep />}
+          {activeStep === 3 && <ResultsStep />}
+          {activeStep === 4 && <LeaderboardStep />}
+        </Box>
+
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            mt: 2,
+            gap: { xs: 1, sm: 2 },
+            flexDirection: { xs: 'column', sm: 'row' },
+          }}
+        >
+          <Button
+            variant="outlined"
+            onClick={onBack}
+            disabled={activeStep === 0}
+            fullWidth={isMobile}
+            size={isMobile ? 'large' : 'medium'}
+          >
+            Back
+          </Button>
+          {activeStep === steps.length - 1 ? (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={onSubmit}
+              fullWidth={isMobile}
+              size={isMobile ? 'large' : 'medium'}
+            >
+              Start Over
+            </Button>
+          ) : activeStep === steps.length - 2 ? (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={onNext}
+              fullWidth={isMobile}
+              size={isMobile ? 'large' : 'medium'}
+            >
+              View Leaderboard
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={onNext}
+              disabled={!canProceed}
+              fullWidth={isMobile}
+              size={isMobile ? 'large' : 'medium'}
+            >
+              {activeStep === 2 ? 'Calculate Score' : 'Continue'}
+            </Button>
+          )}
+        </Box>
+        <Divider sx={{ my: 2 }} />
+        <Box sx={{ textAlign: 'center', width: '100%' }}>
+          <Typography variant="caption" color="text.secondary">
+            © www.mathinenglish.com
+          </Typography>
+        </Box>
       </Box>
-      <Divider sx={{ my: 2 }} />
-      <Box sx={{ textAlign: 'center', width: '100%' }}>
-        <Typography variant="caption" color="text.secondary">
-          © www.mathinenglish.com
-        </Typography>
-      </Box>
-    </Box>
-  </Container>
-);
+    </Container>
+  );
+};
 
 export default TabProgress;

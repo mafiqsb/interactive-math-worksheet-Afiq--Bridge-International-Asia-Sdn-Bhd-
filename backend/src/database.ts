@@ -1,7 +1,6 @@
 import { createClient } from '@vercel/postgres';
 import Database from 'better-sqlite3';
 
-// For Supabase, use the non-pooling URL
 const isLocal =
   !process.env.POSTGRES_URL_NON_POOLING &&
   !process.env.VERCEL &&
