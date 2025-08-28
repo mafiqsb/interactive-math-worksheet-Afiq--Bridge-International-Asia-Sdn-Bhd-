@@ -45,7 +45,7 @@ export const mathQuestions: MathQuestion[] = [
   },
   { id: 7, number: 45, choices: { a: 50, b: 45, c: 40 }, correctChoice: 'a' },
   { id: 8, number: 19, choices: { a: 20, b: 10, c: 19 }, correctChoice: 'a' },
-  { id: 9, number: 0, choices: { a: 10, b: 0, c: 0 }, correctChoice: 'b' },
+  { id: 9, number: 0, choices: { a: 10, b: 1, c: 0 }, correctChoice: 'b' },
   {
     id: 10,
     number: 199,
@@ -64,5 +64,4 @@ export const mathQuestions: MathQuestion[] = [
     choices: { a: 990, b: 1000, c: 909 },
     correctChoice: 'b',
   },
-  { id: 13, number: 89, choices: { a: 90, b: 100, c: 89 }, correctChoice: 'a' },
 ];
