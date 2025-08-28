@@ -1,8 +1,5 @@
 const API_BASE_URL = 'http://localhost:3001/api/worksheet';
 
-console.log('Frontend running on:', window.location.origin);
-console.log('API Base URL:', API_BASE_URL);
-
 export interface SubmissionData {
   userName: string;
   answers: Record<number, string>;
@@ -19,9 +16,6 @@ export interface LeaderboardEntry {
 export const api = {
   async submitWorksheet(data: SubmissionData) {
     try {
-      console.log('Frontend origin:', window.location.origin);
-      console.log('Submitting to:', `${API_BASE_URL}/submit`);
-      console.log('Data:', data);
 
       const response = await fetch(`${API_BASE_URL}/submit`, {
         method: 'POST',
@@ -32,9 +26,6 @@ export const api = {
         mode: 'cors',
       });
 
-      console.log('Response status:', response.status);
-      console.log('Response ok:', response.ok);
-
       if (!response.ok) {
         const errorText = await response.text();
         console.error('Response error:', errorText);
@@ -44,7 +35,6 @@ export const api = {
       }
 
       const result = await response.json();
-      console.log('Success result:', result);
       return result;
     } catch (error) {
       console.error('Fetch error:', error);
@@ -59,7 +49,6 @@ export const api = {
 
   async getLeaderboard(): Promise<LeaderboardEntry[]> {
     try {
-      console.log('Fetching leaderboard from:', `${API_BASE_URL}/leaderboard`);
 
       const response = await fetch(`${API_BASE_URL}/leaderboard`);
 
@@ -70,7 +59,6 @@ export const api = {
       }
 
       const result = await response.json();
-      console.log('Leaderboard result:', result);
       return result;
     } catch (error) {
       console.error('Leaderboard fetch error:', error);

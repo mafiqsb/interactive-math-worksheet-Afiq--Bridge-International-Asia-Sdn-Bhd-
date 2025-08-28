@@ -52,7 +52,6 @@ const App: React.FC = () => {
           score: correctCount,
           totalQuestions: mathQuestions.length,
         });
-        console.log('Submission saved successfully');
       } catch (error) {
         console.error('Failed to save submission:', error);
       } finally {

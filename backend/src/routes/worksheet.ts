@@ -64,7 +64,6 @@ router.get('/submissions', async (req, res) => {
 // Get leaderboard
 router.get('/leaderboard', async (req, res) => {
   try {
-    console.log('Received leaderboard request');
     const leaderboard = await getLeaderboard();
     console.log('Leaderboard data:', leaderboard);
     res.json(leaderboard);
