@@ -83,7 +83,7 @@ const ResultsStep: React.FC = () => {
               fontSize: { xs: '1rem', sm: '1.5rem' },
             }}
           >
-            {score}/13
+            {score}/12
           </Typography>
         </Box>
         <Typography

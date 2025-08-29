@@ -142,7 +142,7 @@ const LeaderboardStep: React.FC = () => {
                             : 'text.primary',
                       }}
                     >
-                      {entry.best_score}/13
+                      {entry.best_score}/12
                     </Typography>
                   </TableCell>
                   <TableCell
